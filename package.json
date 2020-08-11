@@ -1,0 +1,57 @@
+{
+  "name": "brisk-tyxml",
+  "version": "0.1.0",
+  "description": "Starter Reason Project",
+  "esy": {
+    "build": "dune build -p #{self.name}",
+    "buildDev": "pesy build",
+    "release": {
+      "releasedBinaries": [
+        "BriskTyxmlApp.exe"
+      ]
+    }
+  },
+  "pesy": {
+    "azure-project": "esy-dev/esy",
+    "github": "esy/pesy-reason-template"
+  },
+  "buildDirs": {
+    "library": {
+      "imports": [
+        "Tyxml = require('tyxml')",
+        "Brisk_reconciler = require('brisk-reconciler')"
+      ],
+      "preprocess": [
+        "pps",
+        "brisk-reconciler.ppx"
+      ]
+    },
+    "bin": {
+      "imports": [
+        "Library = require('brisk-tyxml/library')"
+      ],
+      "bin": {
+        "BriskTyxmlApp.exe": "BriskTyxmlApp.re"
+      },
+      "preprocess": [
+        "pps",
+        "brisk-reconciler.ppx"
+      ]
+    }
+  },
+  "scripts": {
+    "start": "esy x BriskTyxmlApp.exe"
+  },
+  "dependencies": {
+    "@opam/dune": "*",
+    "@esy-ocaml/reason": "*",
+    "@brisk/brisk-reconciler": "briskml/brisk-reconciler",
+    "@opam/tyxml": "*",
+    "ocaml": "~4.9.0"
+  },
+  "devDependencies": {
+    "@pesy/esy-pesy": "0.1.0-alpha.11",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
+    "refmterr": "*"
+  }
+}
