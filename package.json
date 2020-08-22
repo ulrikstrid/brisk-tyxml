@@ -5,33 +5,14 @@
   "esy": {
     "build": "dune build -p #{self.name}",
     "buildDev": "pesy build",
-    "release": {
-      "releasedBinaries": [
-        "BriskTyxmlApp.exe"
-      ]
-    }
+    "release": { "releasedBinaries": [ "BriskTyxmlApp.exe" ] }
   },
   "pesy": {
     "azure-project": "esy-dev/esy",
     "github": "esy/pesy-reason-template"
   },
-  "buildDirs": {
-    "bin": {
-      "imports": [
-        "Library = require('brisk-tyxml/library')"
-      ],
-      "bin": {
-        "BriskTyxmlApp.exe": "BriskTyxmlApp.re"
-      },
-      "preprocess": [
-        "pps",
-        "brisk-reconciler.ppx"
-      ]
-    }
-  },
-  "scripts": {
-    "start": "esy x BriskTyxmlApp.exe"
-  },
+  "buildDirs": {},
+  "scripts": { "start": "esy x BriskTyxmlApp.exe" },
   "dependencies": {
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",

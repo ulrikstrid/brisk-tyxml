@@ -1,6 +1,6 @@
 (library
- (name BriskTyxmlLibrary)
- (public_name brisk-tyxml.library)
+ (name BriskTyxml)
+ (public_name brisk-tyxml)
  (libraries tyxml.functor tyxml brisk-reconciler)
  (preprocess
   (pps brisk-reconciler.ppx)))

@@ -1,4 +1,4 @@
-open Library.React;
+open BriskTyxml.React;
 
 let make = () => {
   <div className="max-w-md rounded overflow-hidden shadow-lg">
