@@ -16,16 +16,6 @@
     "github": "esy/pesy-reason-template"
   },
   "buildDirs": {
-    "library": {
-      "imports": [
-        "Tyxml = require('tyxml')",
-        "Brisk_reconciler = require('brisk-reconciler')"
-      ],
-      "preprocess": [
-        "pps",
-        "brisk-reconciler.ppx"
-      ]
-    },
     "bin": {
       "imports": [
         "Library = require('brisk-tyxml/library')"
@@ -50,6 +40,7 @@
     "ocaml": "~4.9.0"
   },
   "devDependencies": {
+    "@opam/ocamlformat": "*",
     "@pesy/esy-pesy": "0.1.0-alpha.11",
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "refmterr": "*"
