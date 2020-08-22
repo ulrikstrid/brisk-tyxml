@@ -31,3 +31,6 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/ulrikstrid/brisk-tyxml.git"
+pin-depends: [
+  [ "brisk-reconciler.dev" "git+https://github.com/briskml/brisk-reconciler.git#master" ]
+]
