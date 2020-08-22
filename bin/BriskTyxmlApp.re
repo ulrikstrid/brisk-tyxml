@@ -1,6 +1,6 @@
 print_endline("Running Test Program:");
-let () = print_endline(Library.Util.hello());
+print_newline();
 
-open Library.React;
+open BriskTyxml.React;
 
 renderToString(<App />) |> print_endline;

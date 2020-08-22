@@ -1,0 +1,21 @@
+EXCLUDE_QUERY_DIR
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/brisk__s__brisk_reconciler-5952f4b5/lib/brisk-reconciler
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__ocamlfind-opam__c__1.8.1-edca2a37/lib/bytes
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__re-opam__c__1.9.0-f02e4530/lib/re
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__seq-opam__c__base-15764575/lib/seq
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__tyxml-opam__c__4.4.0-4e2a3f3b/lib/tyxml
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__tyxml-opam__c__4.4.0-4e2a3f3b/lib/tyxml/functor
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__uchar-opam__c__0.0.2-5a718357/lib/uchar
+B /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__uutf-opam__c__1.0.2-01de1b74/lib/uutf
+B /Users/ulrik.strid/dev/reason-native-web/brisk-tyxml/_esy/default/store/b/brisk_tyxml-bfad02f1/default/library/.BriskTyxml.objs/byte
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/brisk__s__brisk_reconciler-5952f4b5/lib/brisk-reconciler
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__ocamlfind-opam__c__1.8.1-edca2a37/lib/bytes
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__re-opam__c__1.9.0-f02e4530/lib/re
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__seq-opam__c__base-15764575/lib/seq
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__tyxml-opam__c__4.4.0-4e2a3f3b/lib/tyxml
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__tyxml-opam__c__4.4.0-4e2a3f3b/lib/tyxml/functor
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__uchar-opam__c__0.0.2-5a718357/lib/uchar
+S /Users/ulrik.strid/.esy/3_____________________________________________________________/i/opam__s__uutf-opam__c__1.0.2-01de1b74/lib/uutf
+S .
+FLG -ppx '/Users/ulrik.strid/dev/reason-native-web/brisk-tyxml/_esy/default/store/b/brisk_tyxml-bfad02f1/default/.ppx/6ac441f1d9f67cce07055998a1d00827/ppx.exe --as-ppx --cookie '\''library-name="BriskTyxml"'\'''
+FLG -open BriskTyxml -w -40
