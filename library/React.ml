@@ -18,7 +18,7 @@ module RemoteAction = Brisk_reconciler.RemoteAction
 
 let insertNode (type a) ~(parent : a Tyxml.Html.elt)
     ~(child : 'b Tyxml.Html.elt) ~position:_ : a Tyxml.Html.elt =
-  match Obj.magic (Tyxml.Html.toelt parent) with
+  match Tyxml.Html.toelt parent |> Tyxml.Xml.content with
   | Tyxml_xml.Node (ele, a, children) ->
       let child = Tyxml.Html.toelt child in
       Tyxml_xml.node ~a ele (List.rev (child :: children)) |> Tyxml.Html.tot
@@ -26,7 +26,7 @@ let insertNode (type a) ~(parent : a Tyxml.Html.elt)
 
 let deleteNode (type a) ~(parent : a Tyxml.Html.elt)
     ~(child : 'b Tyxml.Html.elt) ~position:_ : a Tyxml.Html.elt =
-  ( match Obj.magic (Tyxml.Html.toelt parent) with
+  ( match Tyxml.Html.toelt parent |> Tyxml.Xml.content with
     | Tyxml_xml.Node (ele, a, children) ->
         let child = Tyxml.Html.toelt child in
         Tyxml_xml.node ~a ele (List.filter (fun c -> c <> child) children)
@@ -45,13 +45,16 @@ let () =
     (fun () -> RemoteAction.send ~action:() onStale)
     ()
 
+type div = private [> Html_types.div ]
+type div_content_fun = private [< Html_types.div_content_fun ]
+
 let div =
   let open Brisk_reconciler in
   let component = Expert.nativeComponent "div" in
   fun ~(children :
-         Html_types.div_content_fun Tyxml.Html.elt Brisk_reconciler.element)
+         div_content_fun Tyxml.Html.elt Brisk_reconciler.element)
       ?(className : string option) () :
-      Html_types.div Tyxml.Html.elt Brisk_reconciler.element ->
+      div Tyxml.Html.elt Brisk_reconciler.element ->
     component (fun hooks ->
         ( {
             make =
@@ -124,11 +127,13 @@ let span =
           },
           hooks ))
 
-let p =
+type p = private [> Html_types.p ] 
+
+let p (type a) =
   let open Brisk_reconciler in
   let component = Expert.nativeComponent "p" in
   fun ~text ?(className : string option) () :
-      Html_types.p Tyxml.Html.elt Brisk_reconciler.element ->
+      p Tyxml_html.elt Brisk_reconciler.element ->
     component (fun hooks ->
         ( {
             make =
@@ -184,7 +189,10 @@ let renderToString application =
   let hostView =
     Brisk_reconciler.RenderedElement.executeHostViewUpdates !rendered
   in
-  Format.asprintf "%a" (Tyxml.Html.pp ()) (Obj.magic hostView)
+  Format.asprintf "%a" (Tyxml.Html.pp ())
+    (Tyxml.Html.html
+       (Tyxml.Html.head (Tyxml.Html.title (Tyxml.Html.txt "title")) [])
+       hostView)
 
 (*let () = print_string "hostView - " in
     let () =
