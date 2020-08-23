@@ -40,7 +40,7 @@ let moveNode (type a) ~(parent : a Tyxml.Html.elt) ~child:_ ~from:_ ~to_:_ :
 
 let onStale = RemoteAction.create ()
 
-let _ =
+let () =
   Brisk_reconciler.addStaleTreeHandler
     (fun () -> RemoteAction.send ~action:() onStale)
     ()
