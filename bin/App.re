@@ -1,10 +1,3 @@
-open BriskTyxml.React;
+open BriskTyxml.BriskXml.Component;
 
-let make = () =>
-  div(
-    ~className="",
-    ~children=
-      p(~text="asd", ())
-    ,
-    (),
-  );
+let make = () => <div />;

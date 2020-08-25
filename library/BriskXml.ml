@@ -1,104 +1,126 @@
-module Xml = struct
-  module W = Xml_wrap.NoWrap
+module B = Brisk_reconciler
 
-  type 'a wrap = 'a
+let constant name x =
+  B.Expert.nativeComponent name (fun hooks ->
+      ( {
+          make = (fun () -> x);
+          configureInstance = (fun ~(isFirstRender : _) node -> node);
+          children = B.empty;
+          insertNode = (fun ~parent ~child:_ ~position:_ -> parent);
+          deleteNode = (fun ~parent ~child:_ ~position:_ -> parent);
+          moveNode = (fun ~parent ~child:_ ~from:_ ~to_:_ -> parent);
+        },
+        hooks ))
 
-  type 'a list_wrap = 'a list
+module Component = struct
+  module BriskElt :
+    Xml_wrap.NODE with type 'a t = 'a B.element and type 'a child = 'a B.element =
+  struct
+    type 'a t = 'a B.element
 
-  type uri = string
+    type 'a child = 'a B.element
 
-  type separator = Space | Comma
+    let inject x = x
+  end
 
-  type aname = string
+  module BriskChild :
+    Xml_wrap.MANY
+      with type 'a t = 'a B.element
+       and type 'a list = 'a B.element List.t = struct
+    type 'a t = 'a B.element
 
-  type acontent =
-    | AFloat of float
-    | AInt of int
-    | AStr of string
-    | AStrL of separator * string list
+    let return x = constant "generatethis" x
 
-  type attrib = aname * acontent
+    type 'a list = 'a B.element List.t
 
-  let acontent (_, a) = a
+    let nil () = []
 
-  let aname (name, _) = name
+    let singleton x = [ x ]
 
-  type ename = string
+    let cons = List.cons
 
-  type econtent =
-    | Empty
-    | Comment of string
-    | EncodedPCDATA of string
-    | PCDATA of string
-    | Entity of string
-    | Leaf of ename * attrib list
-    | Node of ename * attrib list * econtent list
+    let append = List.append
+  end
 
-  let uri_of_string = Tyxml.Xml.uri_of_string
+  module Make (Xml : Xml_sigs.Iterable) :
+    Xml_sigs.T
+      with module Elt = BriskElt
+       and module Child = BriskChild
+       and module Attr = Xml_wrap.NoWrap = struct
+    let insertNode f ~parent ~child ~position:_ =
+      match Xml.content parent with
+      | Node (ele, a, children) ->
+          Xml.node ~a ele (List.rev (f child :: children))
+      | _ -> parent
 
-  let string_of_uri = Tyxml.Xml.string_of_uri
+    let deleteNode f ~parent ~child ~position:_ =
+      match Xml.content parent with
+      | Node (ele, a, children) ->
+          Xml.node ~a ele (List.filter (fun c -> c <> f child) children)
+      | _ -> parent
 
-  type event_handler = Tyxml.Xml.event_handler
+    let moveNode ~parent ~child:_ ~from:_ ~to_ = parent
 
-  type mouse_event_handler = Tyxml.Xml.mouse_event_handler
+    include Xml
+    module Elt = BriskElt
+    module Child = BriskChild
+    module Attr = Xml_wrap.NoWrap
 
-  type touch_event_handler = Tyxml.Xml.touch_event_handler
+    type data = Xml.data
 
-  type keyboard_event_handler = Tyxml.Xml.keyboard_event_handler
+    type elt = data Elt.t
 
-  let float_attrib name value = (name, AFloat value)
+    type children = data Child.list
 
-  let int_attrib name value = (name, AInt value)
+    let empty () = B.empty
 
-  let string_attrib name value = (name, AStr value)
+    let elt f name children base =
+      B.Expert.nativeComponent name (fun hooks ->
+          ( {
+              make = (fun () -> base);
+              configureInstance = (fun ~(isFirstRender : _) node -> node);
+              children;
+              insertNode = insertNode f;
+              deleteNode = deleteNode f;
+              moveNode;
+            },
+            hooks ))
 
-  let space_sep_attrib name values = (name, AStrL (Space, values))
+    let leaf ?a name = constant name @@ Xml.leaf ?a name
 
-  let comma_sep_attrib name values = (name, AStrL (Comma, values))
+    let node ?a name (children : children) =
+      elt (fun x -> x) name (B.listToElement children) (Xml.node ?a name [])
 
-  let event_handler_attrib name value = (name, AStr value)
+    let ( % ) f g x = f (g x)
 
-  let mouse_event_handler_attrib name value = (name, AStr value)
+    let comment = constant "comment" % Xml.comment
 
-  let keyboard_event_handler_attrib name value = (name, AStr value)
+    let entity = constant "entity" % Xml.entity
 
-  let touch_event_handler_attrib name value = (name, AStr value)
+    let cdata = constant "cdata" % Xml.cdata
 
-  let uri_attrib name value = (name, AStr value)
+    let cdata_script = constant "cdata" % Xml.cdata_script
 
-  let uris_attrib name values = (name, AStrL (Space, values))
+    let cdata_style = constant "cdata" % Xml.cdata_style
 
-  (** Element *)
+    let pcdata content =
+      elt (fun x -> Xml.pcdata x) "pcdata" content (Xml.pcdata "")
 
-  type elt = econtent
+    let encodedpcdata content =
+      elt (fun x -> Xml.encodedpcdata x) "pcdata" content (Xml.encodedpcdata "")
+  end
 
-  let content elt = elt
+  module Xml = Make (Tyxml.Xml)
 
-  let empty () = Empty
+  module Svg : Svg_sigs.Make(Xml).T = Svg_f.Make (Xml)
 
-  let comment c = Comment c
-
-  let pcdata d = PCDATA d
-
-  let encodedpcdata d = EncodedPCDATA d
-
-  let entity e = Entity e
-
-  let leaf ?(a = []) name = Leaf (name, a)
-
-  let node ?(a = []) name children = Node (name, a, children)
-
-  let cdata a = assert false
-
-  let cdata_script a = assert false
-
-  let cdata_style a = assert false
+  module Html : Html_sigs.Make(Xml)(Svg).T = Html_f.Make (Xml) (Svg)
 end
 
-module Xml_Svg = struct
-  include Xml
-end
+(*
+let make id =
+  let open Component in
+  [%html "<div id=" id "><p>foooo</p></div>"]
+  *)
 
-module Svg = Svg_f.Make (Xml_Svg)
-module Html = Html_f.Make (Xml) (Svg)
-module Xml_print = Xml_print.Make_typed_fmt (Xml) (Html)
+(* val make : string -> [> Html_types.div ] Component.Html.data Brisk_reconciler.element *)

@@ -3,4 +3,4 @@
  (public_name BriskTyxmlApp.exe)
  (libraries brisk-tyxml)
  (preprocess
-  (pps brisk-reconciler.ppx)))
+  (pps tyxml-jsx)))

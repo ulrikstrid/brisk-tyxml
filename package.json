@@ -4,26 +4,33 @@
   "description": "Starter Reason Project",
   "esy": {
     "build": "dune build -p #{self.name}",
-    "buildDev": "pesy build",
-    "release": { "releasedBinaries": [ "BriskTyxmlApp.exe" ] }
+    "release": {
+      "releasedBinaries": [
+        "BriskTyxmlApp.exe"
+      ]
+    }
   },
   "pesy": {
     "azure-project": "esy-dev/esy",
     "github": "esy/pesy-reason-template"
   },
-  "buildDirs": {},
-  "scripts": { "start": "esy x BriskTyxmlApp.exe" },
+  "scripts": {
+    "start": "esy x BriskTyxmlApp.exe"
+  },
   "dependencies": {
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
     "@brisk/brisk-reconciler": "briskml/brisk-reconciler",
-    "@opam/tyxml": "*",
+    "@opam/tyxml": "ocsigen/tyxml:tyxml.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
+    "@opam/tyxml-jsx": "ocsigen/tyxml:tyxml-jsx.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
     "ocaml": "~4.9.0"
   },
   "devDependencies": {
-    "@opam/ocamlformat": "*",
-    "@pesy/esy-pesy": "0.1.0-alpha.11",
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "refmterr": "*"
+  },
+  "resolutions": {
+    "@opam/tyxml": "ocsigen/tyxml:tyxml.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
+    "@opam/tyxml-jsx": "ocsigen/tyxml:tyxml-jsx.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496"
   }
 }
