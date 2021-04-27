@@ -59,7 +59,7 @@ module Component = struct
           Xml.node ~a ele (List.filter (fun c -> c <> f child) children)
       | _ -> parent
 
-    let moveNode ~parent ~child:_ ~from:_ ~to_ = parent
+    let moveNode _f ~parent ~child:_ ~from:_ ~to_ = parent
 
     include Xml
     module Elt = BriskElt
@@ -82,7 +82,7 @@ module Component = struct
               children;
               insertNode = insertNode f;
               deleteNode = deleteNode f;
-              moveNode;
+              moveNode = moveNode f;
             },
             hooks ))
 
@@ -115,12 +115,12 @@ module Component = struct
   module Svg : Svg_sigs.Make(Xml).T = Svg_f.Make (Xml)
 
   module Html : Html_sigs.Make(Xml)(Svg).T = Html_f.Make (Xml) (Svg)
+
 end
 
-(*
+
 let make id =
   let open Component in
-  [%html "<div id=" id "><p>foooo</p></div>"]
-  *)
+  Component.Html.div ~a:[Component.Html.a_id id] []
 
 (* val make : string -> [> Html_types.div ] Component.Html.data Brisk_reconciler.element *)

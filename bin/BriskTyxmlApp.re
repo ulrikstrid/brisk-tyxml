@@ -1,6 +1,8 @@
 print_endline("Running Test Program:");
 print_newline();
 
-open BriskTyxml.React;
+open BriskTyxml.BriskXml.Component;
 
-renderToString(<App />) |> print_endline;
+BriskTyxml.React.renderToString(Html.div([])) |> print_newline;
+
+// renderToString(<App />) |> print_endline;

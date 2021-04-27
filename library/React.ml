@@ -10,23 +10,18 @@ let () =
 let render _application = print_endline "This is no-op on native"
 
 let renderToString application =
-  let rendered :
-      ('a Tyxml.Html.elt, 'b Tyxml.Html.elt) Brisk_reconciler.RenderedElement.t
-      ref =
+  let rendered =
     ref
       (Brisk_reconciler.RenderedElement.render
          {
-           node = Tyxml.Html.body [];
-           insertNode = BriskXml.Component.Xml.insertNode;
-           deleteNode = BriskXml.Component.Xml.deleteNode;
-           moveNode = BriskXml.Component.Xml.moveNode;
+           node = BriskXml.Component.Xml.;
+           insertNode =(fun ~parent:_ ~child ~position:_ -> BriskXml.Component.Html.body [child] |> BriskXml.Component.Html.toelt);
+           deleteNode = (fun ~parent ~child:_ ~position:_ -> parent);
+           moveNode = (fun ~parent ~child:_ ~from:_ ~to_:_ -> parent);
          }
          application)
   in
   let hostView =
     Brisk_reconciler.RenderedElement.executeHostViewUpdates !rendered
   in
-  Format.asprintf "%a" (Tyxml.Html.pp ())
-    (Tyxml.Html.html
-       (Tyxml.Html.head (Tyxml.Html.title (Tyxml.Html.txt "title")) [])
-       hostView)
+  Console.log hostView

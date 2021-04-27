@@ -1,3 +1,3 @@
 open BriskTyxml.BriskXml.Component;
 
-let make = () => <div />;
+let createElement = (~title, ()) => Html.body([Html.div([])]);

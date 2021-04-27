@@ -21,6 +21,7 @@
     "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
     "@brisk/brisk-reconciler": "briskml/brisk-reconciler",
+    "@reason-native/console": "^0.1.0",
     "@opam/tyxml": "ocsigen/tyxml:tyxml.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
     "@opam/tyxml-jsx": "ocsigen/tyxml:tyxml-jsx.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
     "ocaml": "~4.9.0"
@@ -31,6 +32,7 @@
   },
   "resolutions": {
     "@opam/tyxml": "ocsigen/tyxml:tyxml.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
-    "@opam/tyxml-jsx": "ocsigen/tyxml:tyxml-jsx.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496"
+    "@opam/tyxml-jsx": "ocsigen/tyxml:tyxml-jsx.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496",
+    "@opam/tyxml-syntax": "ocsigen/tyxml:tyxml-syntax.opam#232b634c1d6bc69cf4be78ca78d7d8d5f4b4f496"
   }
 }
